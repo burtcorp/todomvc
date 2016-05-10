@@ -30,12 +30,14 @@ export class TodoStore {
 		})
 	}
 
-	private updateStore() {
-		localStorage.setItem('angular2-todos', JSON.stringify(this.todos))
+	add(title: String) {
+		this.todos.push(new Todo(title))
+		this.updateStore()
 	}
 
-	private getWithCompleted(completed: Boolean) {
-		return this.todos.filter((todo: Todo) => todo.completed === completed)
+	remove(todo: Todo) {
+		this.todos.splice(this.todos.indexOf(todo), 1)
+		this.updateStore()
 	}
 
 	allCompleted() {
@@ -68,13 +70,11 @@ export class TodoStore {
 		this.updateStore()
 	}
 
-	remove(todo: Todo) {
-		this.todos.splice(this.todos.indexOf(todo), 1)
-		this.updateStore()
+	private updateStore() {
+		localStorage.setItem('angular2-todos', JSON.stringify(this.todos))
 	}
 
-	add(title: String) {
-		this.todos.push(new Todo(title))
-		this.updateStore()
+	private getWithCompleted(completed: Boolean) {
+		return this.todos.filter((todo: Todo) => todo.completed === completed)
 	}
 }

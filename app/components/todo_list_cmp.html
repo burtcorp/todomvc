@@ -1,0 +1,5 @@
+<ul class="todo-list">
+	<li *ngFor="#todo of todoStore.todos" [class.completed]="todo.completed" [class.editing]="todo.editing">
+    <todo-cmp [todo]="todo"></todo-cmp>
+	</li>
+</ul>
