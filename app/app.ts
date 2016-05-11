@@ -8,15 +8,11 @@ import {TodoListCmp} from './components/todo_list_cmp'
 	directives: [TodoListCmp]
 })
 export default class TodoApp {
-	todoStore: TodoStore
+	todos: Todo[]
 	newTodoText = ''
 
-	constructor(todoStore: TodoStore) {
-		this.todoStore = todoStore
-	}
-
-	removeCompleted() {
-		this.todoStore.removeCompleted()
+	constructor(private todoStore: TodoStore) {
+		this.todos = todoStore.todos
 	}
 
 	addTodo() {
@@ -24,5 +20,38 @@ export default class TodoApp {
 			this.todoStore.add(this.newTodoText)
 			this.newTodoText = ''
 		}
+	}
+
+	allCompleted() {
+		return this.todoStore.allCompleted()
+	}
+
+	setAllTo(completed: Boolean) {
+		this.todoStore.setAllTo(completed)
+	}
+
+	getRemaining() {
+		return this.todoStore.getRemaining()
+	}
+
+	getCompleted() {
+		return this.todoStore.getCompleted()
+	}
+
+	removeCompleted() {
+		this.todoStore.removeCompleted()
+		this.todos = this.todoStore.todos
+	}
+
+	toggleCompletion(todo: Todo) {
+		this.todoStore.toggleCompletion(todo)
+	}
+
+	update(todo: Todo) {
+		this.todoStore.update(todo)
+	}
+
+	remove(todo: Todo) {
+		this.todoStore.remove(todo)
 	}
 }

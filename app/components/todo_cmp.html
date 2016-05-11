@@ -1,9 +1,11 @@
-<div class="view">
-	<input class="toggle" type="checkbox" (click)="toggleCompletion(todo)" [checked]="todo.completed">
-  <todo-view-title-cmp
-		[title]="todo.title"
-		(dblclick)="edit()"
-	></todo-view-title-cmp>
-	<button class="destroy" (click)="remove(todo)"></button>
-</div>
-<input class="edit" *ngIf="todo.editing" [value]="todo.title" #editedtodo (blur)="stopEditing(todo, editedtodo.value)" (keyup.enter)="updateEditingTodo(todo, editedtodo.value)" (keyup.escape)="cancelEditingTodo(todo)">
+<li [class.completed]="todo.completed" [class.editing]="editing">
+	<div class="view">
+		<input class="toggle" type="checkbox" (click)="toggleCompletion.next(todo)" [checked]="todo.completed">
+		<todo-view-title-cmp
+			[title]="todo.title"
+			(dblclick)="edit()"
+		></todo-view-title-cmp>
+		<button class="destroy" (click)="remove.next(todo)"></button>
+	</div>
+	<input class="edit" *ngIf="editing" [(ngModel)]="editTitle" (keyup.enter)="updateTodo()" (blur)="cancelEdit()" (keyup.escape)="cancelEdit()">
+</li>

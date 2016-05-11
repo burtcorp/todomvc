@@ -1,4 +1,4 @@
-import {Component,Input} from 'angular2/core'
+import {Component,Input,Output,EventEmitter} from 'angular2/core'
 import {Todo,TodoStore} from '../services/store'
 import {TodoViewTitleCmp} from './todo_view_title_cmp'
 
@@ -9,43 +9,31 @@ import {TodoViewTitleCmp} from './todo_view_title_cmp'
   inputs: ['todo']
 })
 export class TodoCmp {
-  todo: Todo
+  @Input() todo: Todo
+	@Output() toggleCompletion = new EventEmitter()
+	@Output() update = new EventEmitter()
+	@Output() remove = new EventEmitter()
 
-	constructor(private todoStore: TodoStore) {}
+	editing = false
+	editTitle: String
 
 	ngDoCheck() {
 		console.log('TodoCmp#ngDoCheck')
 	}
 
-	toggleCompletion(todo: Todo) {
-		this.todoStore.toggleCompletion(todo)
+	edit() {
+		this.editTitle = this.todo.title
+		this.editing = true
 	}
 
-	editTodo(todo: Todo) {
-		todo.editing = true
+	cancelEdit() {
+		this.editing = false
+		this.editTitle = this.todo.title
 	}
 
-	stopEditing(todo: Todo, editedTitle: string) {
-		todo.title = editedTitle
-		todo.editing = false
-	}
-
-	cancelEditingTodo(todo: Todo) {
-		todo.editing = false
-	}
-
-	updateEditingTodo(todo: Todo, editedTitle: string) {
-		editedTitle = editedTitle.trim()
-		todo.editing = false
-
-		if (editedTitle.length === 0) {
-			return this.todoStore.remove(todo)
-		}
-
-		todo.title = editedTitle
-	}
-
-	remove(todo: Todo){
-		this.todoStore.remove(todo)
+	updateTodo() {
+		this.todo.title = this.editTitle
+		this.update.next(this.todo)
+		this.cancelEdit()
 	}
 }

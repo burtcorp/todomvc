@@ -1,5 +1,5 @@
-import {Component} from 'angular2/core'
-import {TodoStore} from '../services/store'
+import {Component,Input,Output,EventEmitter} from 'angular2/core'
+import {Todo,TodoStore} from '../services/store'
 import {TodoCmp} from './todo_cmp'
 
 @Component({
@@ -8,11 +8,10 @@ import {TodoCmp} from './todo_cmp'
 	directives: [TodoCmp]
 })
 export class TodoListCmp {
-  todoStore: TodoStore
-
-  constructor(todoStore: TodoStore) {
-    this.todoStore = todoStore
-  }
+	@Input() todos: Todo[]
+	@Output() toggleCompletion = new EventEmitter()
+	@Output() update = new EventEmitter()
+	@Output() remove = new EventEmitter()
 
 	ngDoCheck() {
 		console.log('TodoListCmp#ngDoCheck')

@@ -1,6 +1,5 @@
 export class Todo {
 	completed: Boolean
-	editing: Boolean
 
 	private _title: String
 	get title() {
@@ -12,7 +11,6 @@ export class Todo {
 
 	constructor(title: String) {
 		this.completed = false
-		this.editing = false
 		this.title = title.trim()
 	}
 }
@@ -37,6 +35,10 @@ export class TodoStore {
 
 	remove(todo: Todo) {
 		this.todos.splice(this.todos.indexOf(todo), 1)
+		this.updateStore()
+	}
+
+	update(todo: Todo) {
 		this.updateStore()
 	}
 
