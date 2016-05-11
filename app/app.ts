@@ -22,29 +22,8 @@ export default class TodoApp {
 		}
 	}
 
-	allCompleted() {
-		return this.todoStore.allCompleted()
-	}
-
-	setAllTo(completed: Boolean) {
-		this.todoStore.setAllTo(completed)
-	}
-
-	getRemaining() {
-		return this.todoStore.getRemaining()
-	}
-
-	getCompleted() {
-		return this.todoStore.getCompleted()
-	}
-
-	removeCompleted() {
-		this.todoStore.removeCompleted()
-		this.todos = this.todoStore.todos
-	}
-
-	toggleCompletion(todo: Todo) {
-		this.todoStore.toggleCompletion(todo)
+	toggle(todo: Todo) {
+		this.todoStore.toggle(todo)
 	}
 
 	update(todo: Todo) {
@@ -53,5 +32,30 @@ export default class TodoApp {
 
 	remove(todo: Todo) {
 		this.todoStore.remove(todo)
+	}
+
+	setAllTo(completed: Boolean) {
+		this.todoStore.setAllTo(completed)
+	}
+
+	removeCompleted() {
+		this.todoStore.removeCompleted()
+		this.todos = this.todoStore.todos
+	}
+
+	allCompleted() {
+		return this.todos.length === this.getCompleted().length
+	}
+
+	getRemaining() {
+		return this.getWithCompleted(false)
+	}
+
+	getCompleted() {
+		return this.getWithCompleted(true)
+	}
+
+	private getWithCompleted(completed: Boolean) {
+		return this.todos.filter((todo: Todo) => todo.completed === completed)
 	}
 }

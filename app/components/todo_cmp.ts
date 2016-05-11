@@ -10,7 +10,7 @@ import {TodoViewTitleCmp} from './todo_view_title_cmp'
 })
 export class TodoCmp {
   @Input() todo: Todo
-	@Output() toggleCompletion = new EventEmitter()
+	@Output() toggle = new EventEmitter()
 	@Output() update = new EventEmitter()
 	@Output() remove = new EventEmitter()
 

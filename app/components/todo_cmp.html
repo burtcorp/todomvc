@@ -1,6 +1,6 @@
 <li [class.completed]="todo.completed" [class.editing]="editing">
 	<div class="view">
-		<input class="toggle" type="checkbox" (click)="toggleCompletion.next(todo)" [checked]="todo.completed">
+		<input class="toggle" type="checkbox" (click)="toggle.next(todo)" [checked]="todo.completed">
 		<todo-view-title-cmp
 			[title]="todo.title"
 			(dblclick)="edit()"

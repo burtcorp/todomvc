@@ -8,7 +8,7 @@
 		<input class="toggle-all" type="checkbox" *ngIf="todos.length" #toggleall [checked]="allCompleted()" (click)="setAllTo(toggleall.checked)">
 		<todo-list-cmp
 			[todos]="todos"
-			(toggleCompletion)="toggleCompletion($event)"
+			(toggle)="toggle($event)"
 			(update)="update($event)"
 			(remove)="remove($event)"
 		></todo-list-cmp>

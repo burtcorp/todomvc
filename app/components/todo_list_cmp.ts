@@ -9,7 +9,7 @@ import {TodoCmp} from './todo_cmp'
 })
 export class TodoListCmp {
 	@Input() todos: Todo[]
-	@Output() toggleCompletion = new EventEmitter()
+	@Output() toggle = new EventEmitter()
 	@Output() update = new EventEmitter()
 	@Output() remove = new EventEmitter()
 
