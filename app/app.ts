@@ -1,5 +1,8 @@
 import {Component} from 'angular2/core'
-import {TodoStore, Todo} from './services/store'
+import {
+	TodoStore,
+	Todo
+} from './services/store'
 import {TodoListCmp} from './components/todo_list_cmp'
 
 @Component({
@@ -12,7 +15,7 @@ export default class TodoApp {
 	newTodoText = ''
 
 	constructor(private todoStore: TodoStore) {
-		this.todos = todoStore.todos
+		todoStore.todos.subscribe(todos => this.todos = todos)
 	}
 
 	addTodo() {

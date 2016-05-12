@@ -1,3 +1,5 @@
+import {ReplaySubject} from 'rxjs/Rx'
+
 export class Todo {
 	completed: Boolean
 
@@ -9,55 +11,69 @@ export class Todo {
 		this._title = value.trim()
 	}
 
-	constructor(title: String) {
-		this.completed = false
+	constructor(title: String, completed: Boolean = false) {
 		this.title = title.trim()
+		this.completed = completed
 	}
 }
 
 export class TodoStore {
-	todos: Array<Todo>
+	private _todos: Array<Todo>
+	todos: ReplaySubject<Array<Todo>> = new ReplaySubject(1)
 
 	constructor() {
 		let persistedTodos = JSON.parse(localStorage.getItem('angular2-todos') || '[]')
 		// Normalize back into classes
-		this.todos = persistedTodos.map( (todo: {_title: String, completed: Boolean}) => {
+		this._todos = persistedTodos.map( (todo: {_title: String, completed: Boolean}) => {
 			let ret = new Todo(todo._title)
 			ret.completed = todo.completed
 			return ret
 		})
+		this.todos.next(this._todos)
 	}
 
 	add(title: String) {
-		this.todos.push(new Todo(title))
-		this.updateStore()
+		this._todos = [...this._todos, new Todo(title)]
+		this.storeUpdated()
 	}
 
 	remove(todo: Todo) {
-		this.todos.splice(this.todos.indexOf(todo), 1)
-		this.updateStore()
+    let index = this._todos.indexOf(todo)
+		this._todos = [
+			...this._todos.slice(0, index),
+			...this._todos.slice(index + 1)
+		]
+		this.storeUpdated()
 	}
 
 	update(todo: Todo) {
-		this.updateStore()
+		let index = this._todos.indexOf(todo)
+		let copy = new Todo(todo.title, todo.completed)
+		this._todos = [
+			...this._todos.slice(0, index),
+			copy,
+			...this._todos.slice(index + 1)
+		]
+		this.storeUpdated()
 	}
 
 	toggle(todo: Todo) {
 		todo.completed = !todo.completed
-		this.updateStore()
+		this.update(todo)
 	}
 
 	setAllTo(completed: Boolean) {
-		this.todos.forEach((t: Todo) => t.completed = completed)
-		this.updateStore()
+		// this.todos.forEach((t: Todo) => t.completed = completed)
+		// this.updateStore()
 	}
 
 	removeCompleted() {
-		this.todos = this.todos.filter((todo: Todo) => todo.completed === false)
-		this.updateStore()
+		// this.todos = this.todos.filter((todo: Todo) => todo.completed === false)
+		// this.updateStore()
 	}
 
-	private updateStore() {
-		localStorage.setItem('angular2-todos', JSON.stringify(this.todos))
+	private storeUpdated() {
+		localStorage.setItem('angular2-todos', JSON.stringify(this._todos))
+		this.todos.next(this._todos)
 	}
 }

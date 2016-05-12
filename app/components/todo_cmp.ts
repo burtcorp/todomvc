@@ -1,12 +1,23 @@
-import {Component,Input,Output,EventEmitter} from 'angular2/core'
-import {Todo,TodoStore} from '../services/store'
+import {
+	Component,
+	Input,
+	Output,
+	EventEmitter,
+	ChangeDetectionStrategy
+} from 'angular2/core'
+
+import {
+	Todo,
+	TodoStore
+} from '../services/store'
+
 import {TodoViewTitleCmp} from './todo_view_title_cmp'
 
 @Component({
 	selector: 'todo-cmp',
 	templateUrl: 'app/components/todo_cmp.html',
 	directives: [TodoViewTitleCmp],
-  inputs: ['todo']
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoCmp {
   @Input() todo: Todo

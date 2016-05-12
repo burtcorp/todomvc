@@ -1,9 +1,9 @@
 <ul class="todo-list">
-    <todo-cmp
-			*ngFor="#todo of todos"
-			[todo]="todo"
-			(toggle)="toggle.next($event)"
-			(update)="update.next($event)"
-			(remove)="remove.next($event)"
-		></todo-cmp>
+  <todo-cmp
+		*ngFor="#todo of todos"
+		[todo]="todo"
+		(toggle)="toggle.next($event)"
+		(update)="update.next($event)"
+		(remove)="remove.next($event)"
+	></todo-cmp>
 </ul>
