@@ -14,8 +14,17 @@ export default class TodoApp {
 	todos: Todo[]
 	newTodoText = ''
 
+	allCompleted: Boolean = false
+	countRemaining: number
+	countCompleted: number
+
 	constructor(private todoStore: TodoStore) {
-		todoStore.todos.subscribe(todos => this.todos = todos)
+		todoStore.todos.subscribe(todos => {
+			this.todos = todos
+			this.allCompleted = this.todos.length === this.getCompleted().length
+			this.countRemaining = this.getRemaining().length
+			this.countCompleted = this.getCompleted().length
+		})
 	}
 
 	addTodo() {
@@ -43,20 +52,14 @@ export default class TodoApp {
 
 	removeCompleted() {
 		this.todoStore.removeCompleted()
-		this.todos = this.todoStore.todos
 	}
 
-	allCompleted() {
-		console.log('TodoApp#allCompleted')
-		return this.todos.length === this.getCompleted().length
-	}
-
-	getRemaining() {
+	private getRemaining() {
 		console.log('TodoApp#getRemaining')
 		return this.getWithCompleted(false)
 	}
 
-	getCompleted() {
+	private getCompleted() {
 		console.log('TodoApp#getCompleted')
 		return this.getWithCompleted(true)
 	}
