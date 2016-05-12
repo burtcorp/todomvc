@@ -10,6 +10,8 @@
     "noImplicitAny": true
   },
   "files": [
-    "app/bootstrap.ts"
+    "app/bootstrap.ts",
+    "specs/setup.ts",
+    "specs/app/first_test.ts"
   ]
 }

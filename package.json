@@ -1,9 +1,12 @@
 {
   "private": true,
   "scripts": {
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "specs": "live-server --watch=app/assets/typescripts --open=specs.html"
   },
   "devDependencies": {
+    "jasmine-core": "2.4.1",
+    "live-server": "0.9.2",
     "typescript": "1.7.5"
   },
   "dependencies": {
