@@ -1,4 +1,7 @@
-import {TodoStore, Todo} from '../../app/services/store'
+import {
+  TodoStore,
+  Todo
+} from '../../app/services/store'
 
 let todo1 = new Todo("Write example")
 let todo2 = new Todo("Make sure it works")
@@ -25,27 +28,43 @@ describe('Todo', () => {
   })
 })
 
-let todoStore = new TodoStore()
+class Storage {
+  todos: Todo[]
+
+  constructor(todos: Todo[]) {
+    this.todos = todos
+  }
+
+  public get(key: String) {
+    return this.todos
+  }
+
+  public set(key: String, value: Boolean) {
+    console.log("TODO")
+  }
+}
 
 describe('TodoStore', () => {
   describe('#new', () => {
     it('creates an empty store by default', () => {
-      let newStore = new TodoStore()
+      let newStore = new TodoStore(new Storage([]))
       newStore.todos.subscribe(todos => expect(todos).toEqual([]))
     })
 
     it('creates a store from a saved state', () => {
-      let preloadedStore = new TodoStore([todo1, todo2, todo3])
+      let preloadedStore = new TodoStore(new Storage([todo1, todo2, todo3]))
       preloadedStore.todos.subscribe(todos => expect(todos).toEqual([todo1, todo2, todo3]))
     })
   })
 
 	describe('#add', () => {
+    let populatedStore = new TodoStore(new Storage([new Todo("Some Task")]))
+
     describe('mutability', () => {
       let todosAfterAdd = [todo1]
 
       it('does not mutate stored todos on add', () => {
-        let beforeAdd = new TodoStore()
+        let beforeAdd = new TodoStore(new Storage([]))
         beforeAdd.add(todo1.title)
         beforeAdd.todos.subscribe(todos => {
           expect(todos).toEqual(todosAfterAdd)
@@ -53,11 +72,8 @@ describe('TodoStore', () => {
       })
     })
 
-    let populatedStore = new TodoStore()
-    populatedStore.add("Some Task")
-
 		it('adds a todo to an empty list', () => {
-			let store = new TodoStore()
+			let store = new TodoStore(new Storage([]))
 			store.add("New Task")
 			store.todos.subscribe(todos => {
 				expect(todos.length).toEqual(1)
@@ -74,7 +90,7 @@ describe('TodoStore', () => {
 
   describe('#remove', () => {
     it('removes todos from store', () => {
-      let store = new TodoStore([todo1, todo2])
+      let store = new TodoStore(new Storage([todo1, todo2]))
       store.remove(todo2)
       store.todos.subscribe(todos => {
         expect(todos).toEqual([todo1])
@@ -82,7 +98,7 @@ describe('TodoStore', () => {
     })
 
     it('throws error when todo cannot be found', () => {
-      let store = new TodoStore()
+      let store = new TodoStore(new Storage([]))
       expect(() => {
         store.remove(todo1)
       }).toThrow( new Error("Can not find Todo in store"))
