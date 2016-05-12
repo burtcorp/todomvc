@@ -1,9 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "dev": "tsc --watch"
+    "dev": "live-server --watch=app --open=index.html"
   },
   "devDependencies": {
+    "live-server": "0.9.2",
     "typescript": "1.7.5"
   },
   "dependencies": {
