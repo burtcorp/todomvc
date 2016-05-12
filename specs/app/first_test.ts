@@ -39,21 +39,22 @@ class Storage {
     return this.todos
   }
 
-  public set(key: String, value: Boolean) {
-    console.log("TODO")
-  }
+  public set(key: String, value: Boolean) {}
 }
 
 describe('TodoStore', () => {
+  let store: TodoStore
+  let todos: Todo[]
+
   describe('#new', () => {
     it('creates an empty store by default', () => {
-      let newStore = new TodoStore(new Storage([]))
-      newStore.todos.subscribe(todos => expect(todos).toEqual([]))
+      store = new TodoStore(new Storage([]))
+      store.todos.subscribe(todos => expect(todos).toEqual([]))
     })
 
     it('creates a store from a saved state', () => {
-      let preloadedStore = new TodoStore(new Storage([todo1, todo2, todo3]))
-      preloadedStore.todos.subscribe(todos => expect(todos).toEqual([todo1, todo2, todo3]))
+      store = new TodoStore(new Storage([todo1, todo2, todo3]))
+      store.todos.subscribe(todos => expect(todos).toEqual([todo1, todo2, todo3]))
     })
   })
 
@@ -73,7 +74,7 @@ describe('TodoStore', () => {
     })
 
 		it('adds a todo to an empty list', () => {
-			let store = new TodoStore(new Storage([]))
+			store = new TodoStore(new Storage([]))
 			store.add("New Task")
 			store.todos.subscribe(todos => {
 				expect(todos.length).toEqual(1)
@@ -89,16 +90,21 @@ describe('TodoStore', () => {
 	})
 
   describe('#remove', () => {
+    beforeEach(() => {
+      store = new TodoStore(new Storage([]))
+      store.todos.subscribe(updatedTodos => todos = updatedTodos)
+    })
+
     it('removes todos from store', () => {
-      let store = new TodoStore(new Storage([todo1, todo2]))
-      store.remove(todo2)
-      store.todos.subscribe(todos => {
-        expect(todos).toEqual([todo1])
-      })
+      store.add("1st")
+      store.add("2nd")
+      let t = todos[0]
+      store.remove(t)
+      expect(todos.length).toEqual(1)
     })
 
     it('throws error when todo cannot be found', () => {
-      let store = new TodoStore(new Storage([]))
+      store = new TodoStore(new Storage([]))
       expect(() => {
         store.remove(todo1)
       }).toThrow( new Error("Can not find Todo in store"))

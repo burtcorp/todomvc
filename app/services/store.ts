@@ -53,11 +53,15 @@ export class TodoStore {
 
 	remove(todo: Todo) {
     let index = this._todos.indexOf(todo)
+    if (index == -1) {
+		throw new Error("Can not find Todo in store");
+    } else {
 		this._todos = [
 			...this._todos.slice(0, index),
 			...this._todos.slice(index + 1)
 		]
 		this.storeUpdated()
+    }
 	}
 
 	update(todo: Todo) {
