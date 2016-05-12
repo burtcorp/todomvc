@@ -13,4 +13,8 @@ export class TodoListCmp {
   constructor(todoStore: TodoStore) {
     this.todoStore = todoStore
   }
+
+	ngDoCheck() {
+		console.log('TodoListCmp#ngDoCheck')
+	}
 }

@@ -1,15 +1,21 @@
 import {Component,Input} from 'angular2/core'
 import {Todo,TodoStore} from '../services/store'
+import {TodoViewTitleCmp} from './todo_view_title_cmp'
 
 @Component({
 	selector: 'todo-cmp',
 	templateUrl: 'app/components/todo_cmp.html',
+	directives: [TodoViewTitleCmp],
   inputs: ['todo']
 })
 export class TodoCmp {
   todo: Todo
 
 	constructor(private todoStore: TodoStore) {}
+
+	ngDoCheck() {
+		console.log('TodoCmp#ngDoCheck')
+	}
 
 	toggleCompletion(todo: Todo) {
 		this.todoStore.toggleCompletion(todo)

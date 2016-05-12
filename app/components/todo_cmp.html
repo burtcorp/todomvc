@@ -1,6 +1,9 @@
 <div class="view">
 	<input class="toggle" type="checkbox" (click)="toggleCompletion(todo)" [checked]="todo.completed">
-	<label (dblclick)="editTodo(todo)">{{todo.title}}</label>
+  <todo-view-title-cmp
+		[title]="todo.title"
+		(dblclick)="edit()"
+	></todo-view-title-cmp>
 	<button class="destroy" (click)="remove(todo)"></button>
 </div>
 <input class="edit" *ngIf="todo.editing" [value]="todo.title" #editedtodo (blur)="stopEditing(todo, editedtodo.value)" (keyup.enter)="updateEditingTodo(todo, editedtodo.value)" (keyup.escape)="cancelEditingTodo(todo)">
