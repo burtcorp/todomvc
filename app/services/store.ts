@@ -39,6 +39,7 @@ export class TodoStore {
 	}
 
 	allCompleted() {
+		console.log('allCompleted')
 		return this.todos.length === this.getCompleted().length;
 	}
 
@@ -53,10 +54,12 @@ export class TodoStore {
 	}
 
 	getRemaining() {
+		console.log('getRemaining')
 		return this.getWithCompleted(false);
 	}
 
 	getCompleted() {
+		console.log('getCompleted')
 		return this.getWithCompleted(true);
 	}
 
