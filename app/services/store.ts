@@ -63,13 +63,17 @@ export class TodoStore {
 	}
 
 	setAllTo(completed: Boolean) {
-		// this.todos.forEach((t: Todo) => t.completed = completed)
-		// this.updateStore()
+		this._todos = this._todos.map(todo => {
+			let copy = new Todo(todo.title)
+			copy.completed = completed
+			return copy
+		})
+		this.storeUpdated()
 	}
 
 	removeCompleted() {
-		// this.todos = this.todos.filter((todo: Todo) => todo.completed === false)
-		// this.updateStore()
+		this._todos = this._todos.filter(todo => todo.completed === false)
+		this.storeUpdated()
 	}
 
 	private storeUpdated() {
