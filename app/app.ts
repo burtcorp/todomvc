@@ -44,14 +44,17 @@ export default class TodoApp {
 	}
 
 	allCompleted() {
+		console.log('TodoApp#allCompleted')
 		return this.todos.length === this.getCompleted().length
 	}
 
 	getRemaining() {
+		console.log('TodoApp#getRemaining')
 		return this.getWithCompleted(false)
 	}
 
 	getCompleted() {
+		console.log('TodoApp#getCompleted')
 		return this.getWithCompleted(true)
 	}
 
