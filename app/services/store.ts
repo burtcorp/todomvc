@@ -1,3 +1,4 @@
+import {Injectable} from 'angular2/core'
 import {ReplaySubject} from 'rxjs/Rx'
 
 export class Todo {
@@ -17,12 +18,25 @@ export class Todo {
 	}
 }
 
+@Injectable()
+export class Storage {
+	get(key: string) {
+		return JSON.parse(localStorage.getItem(key) || '[]')
+	}
+
+	set(key: string, value: any) {
+		localStorage.setItem(key, JSON.stringify(value))
+	}
+}
+
+@Injectable()
 export class TodoStore {
+	private storageKey = 'angular2-todos'
 	private _todos: Array<Todo>
 	todos: ReplaySubject<Array<Todo>> = new ReplaySubject(1)
 
-	constructor() {
-		let persistedTodos = JSON.parse(localStorage.getItem('angular2-todos') || '[]')
+	constructor(private storage: Storage) {
+		let persistedTodos = storage.get(this.storageKey)
 		// Normalize back into classes
 		this._todos = persistedTodos.map( (todo: {_title: String, completed: Boolean}) => {
 			let ret = new Todo(todo._title)
@@ -77,7 +91,7 @@ export class TodoStore {
 	}
 
 	private storeUpdated() {
-		localStorage.setItem('angular2-todos', JSON.stringify(this._todos))
+		this.storage.set(this.storageKey, this._todos)
 		this.todos.next(this._todos)
 	}
 }

@@ -1,5 +1,9 @@
+import {provide} from 'angular2/core'
 import {bootstrap} from 'angular2/platform/browser'
 import TodoApp from './app'
-import {TodoStore} from './services/store'
+import {
+  Storage,
+  TodoStore
+} from './services/store'
 
-bootstrap(TodoApp, [TodoStore])
+bootstrap(TodoApp, [Storage, TodoStore])
