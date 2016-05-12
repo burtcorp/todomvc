@@ -61,24 +61,14 @@ describe('TodoStore', () => {
 	describe('#add', () => {
     let populatedStore = new TodoStore(new Storage([new Todo("Some Task")]))
 
-    describe('mutability', () => {
-      let todosAfterAdd = [todo1]
-
-      it('does not mutate stored todos on add', () => {
-        let beforeAdd = new TodoStore(new Storage([]))
-        beforeAdd.add(todo1.title)
-        beforeAdd.todos.subscribe(todos => {
-          expect(todos).toEqual(todosAfterAdd)
-        })
-      })
+    beforeEach(() => {
+      store.todos.subscribe(ts => todos = ts)
     })
 
 		it('adds a todo to an empty list', () => {
 			store = new TodoStore(new Storage([]))
 			store.add("New Task")
-			store.todos.subscribe(todos => {
-				expect(todos.length).toEqual(1)
-			})
+      expect(todos.length).toEqual(1)
 		})
 
     it('adds a todo to a populated list', () => {
