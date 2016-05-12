@@ -1,7 +1,7 @@
 import {
   TodoStore,
   Todo
-} from '../../app/services/store'
+} from '../../../app/services/store'
 
 let todo1 = new Todo("Write example")
 let todo2 = new Todo("Make sure it works")
